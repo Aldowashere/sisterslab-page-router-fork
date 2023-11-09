@@ -1,10 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { fetchCharacterWithSearch, fetchDataFilm } from "../api/rickandmorty";
-import { useRouter } from "next/router";
-import ClassNames from "classnames";
 import useTheme from "@/components/themprovider";
 import classNames from "classnames";
-import Skeleton from "@/components/Skeleton";
 import CardInfo from "@/components/CardInfo";
 
 export default function Caracters() {
@@ -22,14 +19,18 @@ export default function Caracters() {
     fetchFunction(searchText, searchBy)
       .then((charactersList) => {
         setData(charactersList);
+      
       })
       .catch((error) => {
-        console.log(error);
+      console.log(error.message);
       })
-      .finally(() => setTimeout(()=>{
-        setLoading(false)
-      },1500));
+      .finally(() =>
+        setTimeout(() => {
+          setLoading(false);
+        }, 1500)
+      );
   };
+
   useEffect(() => {
     fetchCharacterData();
     const fetcdata = async () => {
@@ -39,19 +40,22 @@ export default function Caracters() {
     fetcdata();
   }, []);
 
-  const changeTheme = () => {
+ 
+  const changeTheme = useCallback(() => {
     if (typeof window !== "undefined") {
       const newTheme = theme === "dark" ? "light" : "dark";
       localStorage.setItem("theme", JSON.stringify(newTheme));
       setTheme(newTheme);
     }
-  };
+  }, [theme, setTheme]);
 
-  const dataFilter = searchText
-    ? data.filter((item) =>
-        item.name.toLowerCase().includes(searchText.toLowerCase())
-      )
-    : data;
+  // const dataFilter = useMemo(() => {
+  //   return searchText
+  //     ? data.filter((item) =>
+  //         item.name.toLowerCase().includes(searchText.toLowerCase())
+  //       )
+  //     : data;
+  // }, [searchText, data]);
   return (
     <div
       className={classNames("w-full flex items-center  flex-col min-h-screen", {
@@ -68,6 +72,7 @@ export default function Caracters() {
           <option value="name"> Name</option>
           <option value="status">Status</option>
           <option value="species">Species</option>
+          <option value="gender"> Gender</option>
         </select>
         <input
           className="bg-transparent outline-none border-2 px-4 py-2 my-[2rem] mx-3 w-[95%]"
@@ -75,18 +80,17 @@ export default function Caracters() {
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
-        <button
-          onClick={fetchCharacterData}
+        <button  onClick={fetchCharacterData}
           className="bg-transparent outline-none border-2 px-4 py-2 my-[2rem] mx-3 w-[8rem] "
         >
           Search{" "}
         </button>
-        <button onClick={changeTheme}> setTheme</button>
+        <button onClick={changeTheme}> Change Theme </button>
       </div>
 
       <div className="w-full flex gap-2 flex-wrap items-center justify-center ">
-        {dataFilter &&
-          dataFilter.map((item) => (
+        {data &&
+          data?.map((item) => (
             <CardInfo
               key={item.id}
               image={item.image}
@@ -95,6 +99,7 @@ export default function Caracters() {
               id={item.id}
               loading={loading}
               theme={theme}
+              gender={item.gender}
             />
           ))}
       </div>

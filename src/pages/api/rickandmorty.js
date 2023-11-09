@@ -1,6 +1,10 @@
-
- const baseURL = 'https://rickandmortyapi.com/api/character';
+import axios from 'axios';
+const baseURL = 'https://rickandmortyapi.com/api/character';
 const episodeUrl = "https://rickandmortyapi.com/api/episode"
+
+// const axiosInstance = axios.create({
+//   baseURL,
+// });
 
 export  const fetchDataFilm = async () => {
    const fethResponse =   await  fetch(`${baseURL}`)
@@ -15,10 +19,10 @@ export  const fetchDataFilm = async () => {
  }
 
  export const fetchCharacterWithSearch = async (searchText, searchBy) => {
-   const fethResponse = await fetch(`/character/?${searchBy}=${searchText}`);
-   const response =  await fethResponse.json()
-   console.log(response)
+  const response = await axios.get(`${baseURL}/?${searchBy}=${searchText}`
+  );
+
    if (response.data && response.data.results) {
-     return response.data.results;
-   }
+    return response.data.results;
+  }
  };

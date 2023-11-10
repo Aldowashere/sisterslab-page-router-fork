@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { fetchCharacterWithSearch, fetchDataFilm } from "../api/rickandmorty";
+import { fetchCharacterWithSearch, fetchDataFilm } from "../../api/rickandmorty";
 import useTheme from "@/components/themprovider";
 import classNames from "classnames";
 import CardInfo from "@/components/CardInfo";
@@ -59,8 +59,8 @@ export default function Caracters() {
   return (
     <div
       className={classNames("w-full flex items-center  flex-col min-h-screen", {
-        "bg-black/50 text-white": theme === "dark",
-        "bg-white text-black": theme === "light",
+        "bg-black/50 text-white darker": theme === "dark",
+        "bg-white text-black lighter": theme === "light",
       })}
     >
       <div className="flex w-full">

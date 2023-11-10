@@ -20,6 +20,7 @@ export  const fetchDataFilm = async () => {
 
  export const fetchCharacterWithSearch = async (searchText, searchBy) => {
   const response = await axios.get(`${baseURL}/?${searchBy}=${searchText}`
+ 
   );
 
    if (response.data && response.data.results) {

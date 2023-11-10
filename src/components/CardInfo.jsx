@@ -26,7 +26,7 @@ if(loading === true){
       <div className="font-bold text-[1.5rem]">{status}</div>
       
       <button 
-      onClick={()=> router.push(`/caracters/${id}`) } 
+      onClick={()=> router.push(`/characters/${id}`) } 
      
        className="absolute bottom-0 px-3 py-2 mb-2 w-[12rem] rounded-md bg-cyan-950 hover:w-[19rem] transition-all duration-500 font-semibold"
       

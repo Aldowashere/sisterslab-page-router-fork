@@ -1,10 +1,10 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { fetchCharacterWithSearch, fetchDataFilm } from "../../api/rickandmorty";
+import { fetchCharacterWithSearch, fetchDataFilm } from "../api/rickandmorty";
 import useTheme from "@/components/themprovider";
 import classNames from "classnames";
 import CardInfo from "@/components/CardInfo";
 
-export default function Caracters() {
+export default function Characters() {
   const [searchText, setSearchText] = useState("");
   const [data, setData] = useState([]);
   const [searchBy, setSearchBy] = useState("name");
@@ -19,10 +19,9 @@ export default function Caracters() {
     fetchFunction(searchText, searchBy)
       .then((charactersList) => {
         setData(charactersList);
-      
       })
       .catch((error) => {
-      console.log(error.message);
+        console.log(error.message);
       })
       .finally(() =>
         setTimeout(() => {
@@ -33,14 +32,13 @@ export default function Caracters() {
 
   useEffect(() => {
     fetchCharacterData();
-    const fetcdata = async () => {
+    const fetchData = async () => {
       const responseData = await fetchDataFilm();
       setData(responseData);
     };
-    fetcdata();
+    fetchData();
   }, []);
 
- 
   const changeTheme = useCallback(() => {
     if (typeof window !== "undefined") {
       const newTheme = theme === "dark" ? "light" : "dark";
@@ -56,11 +54,12 @@ export default function Caracters() {
   //       )
   //     : data;
   // }, [searchText, data]);
+
   return (
     <div
-      className={classNames("w-full flex items-center  flex-col min-h-screen", {
-        "bg-black/50 text-white darker": theme === "dark",
-        "bg-white text-black lighter": theme === "light",
+      className={classNames("w-full flex items-center flex-col min-h-screen", {
+        "bg-black/50 text-white": theme === "dark",
+        "bg-white text-black": theme === "light",
       })}
     >
       <div className="flex w-full">
@@ -80,15 +79,13 @@ export default function Caracters() {
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
-        <button  onClick={fetchCharacterData}
-          className="bg-transparent outline-none border-2 px-4 py-2 my-[2rem] mx-3 w-[8rem] "
-        >
-          Search{" "}
+        <button onClick={fetchCharacterData} className="bg-transparent outline-none border-2 px-4 py-2 my-[2rem] mx-3 w-[8rem] ">
+          Search
         </button>
         <button onClick={changeTheme}> Change Theme </button>
       </div>
 
-      <div className="w-full flex gap-2 flex-wrap items-center justify-center ">
+      <div className="w-full flex gap-2 flex-wrap items-center justify-center rounded-md">
         {data &&
           data?.map((item) => (
             <CardInfo

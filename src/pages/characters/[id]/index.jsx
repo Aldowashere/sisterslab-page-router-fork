@@ -1,5 +1,5 @@
 
-import { fetchSingleDataCharacter } from "@/api/rickandmorty";
+import { fetchSingleDataCharacter } from "@/pages/api/rickandmorty";
 import { useRouter } from "next/router";
 import { useEffect,  useState } from "react";
 
